@@ -21,13 +21,14 @@ Plug 'dart-lang/dart-vim-plugin'
 Plug 'uiiaoo/java-syntax.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'joshdick/onedark.vim'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'iamcco/markdown-preview.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'iamcco/markdown-preview.vim'
 call plug#end()
 
 set background=dark
-colorscheme onedark
+colorscheme PaperColor
 
 "Keyboard Shortcut
 source ~/.config/nvim/key.vim
@@ -70,6 +71,5 @@ let g:cpp_class_decl_highlight = 1
 let g:cpp_posix_standard = 1
 
 "Vim AirLine Config
-let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='wombat'
 
