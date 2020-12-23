@@ -3,10 +3,8 @@ set number
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set cursorline
-set cursorcolumn
 set encoding=UTF-8
-set modifiable
+set lazyredraw
 
 call plug#begin()
 Plug 'scrooloose/nerdtree'
@@ -15,8 +13,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'uiiaoo/java-syntax.vim'
 Plug 'bling/vim-airline'
@@ -24,7 +20,12 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'iamcco/markdown-preview.vim'
+Plug 'noahfrederick/vim-composer'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-dispatch'
+Plug 'noahfrederick/vim-laravel'
 call plug#end()
 
 set background=dark
@@ -35,8 +36,10 @@ source ~/.config/nvim/key.vim
 
 "NERDTree Config
 map <C-@> :NERDTreeToggle<CR>
+Plug 'SirVer/ultisnips'
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+let NERDTreeShowHidden=1
 
 "NERDTree GIT Config
 let g:NERDTreeGitStatusIndicatorMapCustom = {
@@ -47,7 +50,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Unmerged'  :'═',
                 \ 'Deleted'   :'✖',
                 \ 'Dirty'     :'✗',
-								\ 'Ignored'   :'☒',
+				\ 'Ignored'   :'☒',
                 \ 'Clean'     :'✔︎',
                 \ 'Unknown'   :'?',
                 \ }
@@ -72,4 +75,6 @@ let g:cpp_posix_standard = 1
 
 "Vim AirLine Config
 let g:airline_theme='wombat'
+
+
 

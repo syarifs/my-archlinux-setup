@@ -1,5 +1,7 @@
-
 check_package() {
+    if ! pacman -Qs yay > /dev/null ; then
+        sudo pacman -S yay
+    fi
    package=($@)
    newpack=()
    for i in ${package[@]}; do
@@ -14,29 +16,45 @@ check_package() {
 }
 
 upgrade() {
-    check_package linux-lts
     sudo pacman -Syyu
+    check_package linux-lts
 }
 
 install_standarddevtools(){
-    check_package base-devel npm jdk-openjdk jdk8-openjdk git
+    check_package base-devel npm jdk-openjdk jdk8-openjdk git clang cmake extra-cmake-modules
 }
 
 install_flutterdevtools(){
   check_package android-sdk android-sdk-build-tools android-sdk-platform-tools android-platform-28 flutter
-  sudo groupadd dev
-  sudo gpasswd -a $USER dev
-  sudo setfacl -m g:dev:rwx /opt/android-sdk
-  sudo setfacl -m g:dev:rwx /opt/flutter
+  add_to_group /opt/android-sdk
+  add_to_group /opt/flutter
 }
 
 install_codeeditor() {
   check_package neovim-nightly-git
-  sudo cp settings/neovim/* /home/$USER/.config/ -r
+  cp settings/neovim/coc /home/$USER/.config/ -r
+  cp settings/neovim/nvim /home/$USER/.config/ -r
+  mkdir /home/$USER/.config/nvim/plugged
+  curl -fLo /home/$USER/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  nvim +PlugInstall +qall
 }
 
 clear_cache() {
   yay -Sc
+}
+
+add_to_group() {
+    if ! grep -q dev /etc/group ; then
+        sudo groupadd dev
+    fi
+
+    if ! groups | grep dev >> /dev/null ; then
+        sudo gpasswd -a $USER dev
+    fi
+
+    sudo setfacl -m g:dev:rwx $@
+
 }
 
 install_globalmenu() {
@@ -66,16 +84,26 @@ install_httpserver(){
 
     # start apache service
     sudo systemctl start httpd
+
+    # enable autostart httpd service
+    sudo systemctl enable httpd
+
+    # set /srv/http to accessible
+    add_to_group /srv/http
 }
 
 install_ftpserver(){
-     check_package ufw vsftpd
-     sudo ufw allow 20/ftp
-     sudo ufw allow 21/ftp
-     sudo ufw allow 990/ftp
-     sudo ftp allow 40000:50000/ftp
+     check_package ufw vsftpd filezilla
+     sudo ufw allow 20/tcp
+     sudo ufw allow 21/tcp
+     sudo ufw allow 990/tcp
+     sudo ufw allow 40000:50000/tcp
      sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.bak
+     echo $USER >> /tmp/vsftpd.userlist
+     sudo mv /tmp/vsftpd.userlist /etc
      sudo cp settings/ftpserver/vsftpd.conf /etc/vsftpd.conf
+     sudo mkdir /srv/ftp/$USER/
+     add_to_group /srv/ftp
 }
 
 
@@ -87,12 +115,12 @@ while true; do
 Please Select:
 
 1. Upgrade System and Install LTS Kernel
-2. Install Dev Tools (NPM, OpenJDK, Git)
+2. Install Dev Tools (NPM, OpenJDK, Git, Clang)
 3. Install Flutter Dev Tools (Android SDK, Flutter SDK, Dart)
-4. Install Global Menu Dependencies (KDE Plasma)
-5. Install Code Editor (VSCode, NeoVim)
+4. Install Global Menu Dependencies
+5. Install Code Editor (NeoVim)
 6. Install HTTP Server (Apache, PHP, MariaDB)
-7. Install FTP Server (vsftpd)
+7. Install FTP Server (vsftpd, FileZilla)
 0. Quit
 
 _EOF_
@@ -145,5 +173,9 @@ clear
     sleep $DELAY
   fi
 done
-clear_cache
 echo "Program terminated."
+echo "After Running this Script Please re-login to use Application"
+sleep 4
+clear
+
+
