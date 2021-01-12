@@ -31,13 +31,13 @@ install_flutterdevtools(){
 }
 
 install_codeeditor() {
-  check_package neovim-nightly-git
-  cp settings/neovim/coc /home/$USER/.config/ -r
+  check_package neovim-nightly-git fzf lazygit
   cp settings/neovim/nvim /home/$USER/.config/ -r
   mkdir /home/$USER/.config/nvim/plugged
   curl -fLo /home/$USER/.local/share/nvim/site/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   nvim +PlugInstall +qall
+  cp settings/neovim/coc /home/$USER/.config/ -r
 }
 
 clear_cache() {
