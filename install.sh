@@ -1,6 +1,8 @@
 check_package() {
-    if ! pacman -Qs yay > /dev/null ; then
-        sudo pacman -S yay
+    if ! which yay > /dev/null ; then
+        git clone https://aur.archlinux.org/yay-bin.git
+        cd yay-bin
+        makepkg -si
     fi
    package=($@)
    newpack=()
@@ -31,13 +33,11 @@ install_flutterdevtools(){
 }
 
 install_codeeditor() {
-  check_package neovim-nightly-git fzf lazygit
-  cp settings/neovim/nvim /home/$USER/.config/ -r
-  mkdir /home/$USER/.config/nvim/plugged
-  curl -fLo /home/$USER/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  nvim +PlugInstall +qall
-  cp settings/neovim/coc /home/$USER/.config/ -r
+  check_package visual-studio-code-bin
+  cat settings/vscode-extensions/vscode-extensions-list | 
+    while read e; do
+      code --install-extensions $e
+    done
 }
 
 clear_cache() {
@@ -118,7 +118,7 @@ Please Select:
 2. Install Dev Tools (NPM, OpenJDK, Git, Clang)
 3. Install Flutter Dev Tools (Android SDK, Flutter SDK, Dart)
 4. Install Global Menu Dependencies
-5. Install Code Editor (NeoVim)
+5. Install Code Editor (Visual Studio Code)
 6. Install HTTP Server (Apache, PHP, MariaDB)
 7. Install FTP Server (vsftpd, FileZilla)
 0. Quit

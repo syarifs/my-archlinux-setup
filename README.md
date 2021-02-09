@@ -1,10 +1,10 @@
 # My Linux Environment Setup
 
-Install and Configure applications i used in Manjaro
+Install and Configure applications i used in ArchLinux Family
 
 ### Applications List
 
-1.  NeoVim
+1.  Visual Studio Code
 2.  Yet Another Yoghurt (AUR Wrapper)
 3.  OpenJDK 8
 4.  OpenJDK Latest
