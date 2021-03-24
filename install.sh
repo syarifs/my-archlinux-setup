@@ -64,7 +64,7 @@ install_globalmenu() {
 }
 
 install_httpserver(){
-    check_package apache php php-apache mariadb phpmyadmin
+    check_package apache php php-apache mariadb phpmyadmin composer
 
     # copy all required files
     sudo cp -r settings/httpserver/httpd/* /etc/httpd/conf/
