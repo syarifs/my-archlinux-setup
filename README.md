@@ -6,14 +6,12 @@ Install and Configure applications i used in ArchLinux Family
 
 1.  Visual Studio Code
 2.  Yet Another Yoghurt (AUR Wrapper)
-3.  OpenJDK 8
-4.  OpenJDK Latest
-5.  PHP
-6.  Apache
-7.  MariaDB
-8.  PHPMYADMIN
-9.  Linux LTS
-10. Flutter
-11. Android SDK
-12. vsftpd
-13. FileZilla
+3.  OpenJDK Latest
+4.  PHP
+5.  Apache
+6.  MariaDB
+7.  PHPMYADMIN
+8. Flutter
+9. Android SDK
+10. vsftpd
+11. FileZilla

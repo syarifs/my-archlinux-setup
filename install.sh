@@ -19,7 +19,6 @@ check_package() {
 
 upgrade() {
     sudo pacman -Syyu
-    check_package linux-lts
 }
 
 install_standarddevtools(){
@@ -53,7 +52,7 @@ add_to_group() {
         sudo gpasswd -a $USER dev
     fi
 
-    sudo setfacl -m g:dev:rwx $@
+    sudo chown roo:dev -R $@
 
 }
 
