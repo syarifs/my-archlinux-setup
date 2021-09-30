@@ -21,12 +21,26 @@ upgrade() {
     sudo pacman -Syyu
 }
 
+add_to_group() {
+    if ! grep -q dev /etc/group ; then
+        sudo groupadd dev
+    fi
+
+    if ! groups | grep dev >> /dev/null ; then
+        sudo gpasswd -a $USER dev
+    fi
+
+    sudo chown root:dev -R $@
+
+}
+
 install_standarddevtools(){
     check_package base-devel npm jdk-openjdk jdk8-openjdk git clang cmake extra-cmake-modules
 }
 
 install_flutterdevtools(){
-  check_package android-sdk android-sdk-build-tools android-sdk-platform-tools android-platform-28 flutter
+  check_package android-sdk android-sdk-build-tools-28.0.3 android-sdk-cmdline-tools-latest \
+		android-sdk-platform-tools android-platform-29 flutter
   add_to_group /opt/android-sdk
   add_to_group /opt/flutter
 }
@@ -43,23 +57,8 @@ clear_cache() {
   yay -Sc
 }
 
-add_to_group() {
-    if ! grep -q dev /etc/group ; then
-        sudo groupadd dev
-    fi
-
-    if ! groups | grep dev >> /dev/null ; then
-        sudo gpasswd -a $USER dev
-    fi
-
-    sudo chown roo:dev -R $@
-
-}
-
 install_globalmenu() {
   check_package appmenu-gtk-module lib32-libdbusmenu-glib lib32-libdbusmenu-gtk2 lib32-libdbusmenu-gtk3 libdbusmenu-glib libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5
-  gpg --keyserver keys.gnupg.net --recv-keys 85F86E317555BECC1C2184BF2C45BA09ABC5D7DA
-  check_package firefox-appmenu-bin
 }
 
 install_httpserver(){

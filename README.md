@@ -11,7 +11,7 @@ Install and Configure applications i used in ArchLinux Family
 5.  Apache
 6.  MariaDB
 7.  PHPMYADMIN
-8. Flutter
-9. Android SDK
+8.  Flutter
+9.  Android SDK
 10. vsftpd
 11. FileZilla
