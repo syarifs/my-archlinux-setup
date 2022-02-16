@@ -104,6 +104,14 @@ install_ftpserver(){
      add_to_group /srv/ftp
 }
 
+install_chaotic_aur() {
+	pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
+	pacman-key --lsign-key FBA220DFC880C036
+	pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+	pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+	echo "[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" > /etc/pacman.conf
+}
+
 
 DELAY=3 # Number of seconds to display results
 
@@ -119,6 +127,7 @@ Please Select:
 5. Install Code Editor (Visual Studio Code)
 6. Install HTTP Server (Apache, PHP, MariaDB)
 7. Install FTP Server (vsftpd, FileZilla)
+8. Install Chaotic AUR Repository
 0. Quit
 
 _EOF_
@@ -162,6 +171,11 @@ clear
           sleep $DELAY
           continue
           ;;
+			7)
+					install_chaotic_aur
+					sleep $DELAY
+					continue
+					;;
       0)
         exit
         ;;

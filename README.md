@@ -15,3 +15,4 @@ Install and Configure applications i used in ArchLinux Family
 9.  Android SDK
 10. vsftpd
 11. FileZilla
+12. Chaotic AUR Repository
